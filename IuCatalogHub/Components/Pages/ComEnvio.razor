@@ -1,0 +1,113 @@
+﻿@page "/Shipment"
+@inject AuthenticationStateProvider _authProvider
+@inject NavigationManager navigation
+@inject ISerAlert _msg
+@inject SerEnvio _serEnvios
+@inject ISnackbar _snackBar
+@inject IDialogService _dialogServicio
+
+<AuthorizeView>
+    <Authorized>
+        @if (_verListado)
+        {
+            <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+                <MudGrid Justify="Justify.SpaceBetween">
+                    <MudItem xs="12" sm="9">
+                        <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Success">Administrador Envios</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="3">
+                        <MudButton Variant="Variant.Filled"
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   Color="Color.Success"
+                                   OnClick="@(() => AbrirTabNewEnvio())">
+                            New Envio
+                        </MudButton>
+                    </MudItem>
+                </MudGrid>
+                <MudItem xs="12">
+                    <MudTable T="EnvioModel"
+                              ServerData="LoadServerData"
+                              RowsPerPage="20"
+                              RowsPerPageOptions="new int[] {5, 10, 20, 50}"
+                              Bordered="true"
+                              Striped="true"
+                              Hover="true"
+                              Dense="true"
+                              Breakpoint="Breakpoint.Sm"
+                              Elevation="1"
+                              @bind-SelectedItem="despachoSelected"
+                              @ref="tableRef">
+                        <ToolBarContent>
+                            <MudSpacer />
+                            <MudTextField @bind-Value="_cadenaBuscar"
+                                          Placeholder="Buscar"
+                                          Adornment="Adornment.Start"
+                                          AdornmentIcon="@Icons.Material.Filled.Search"
+                                          IconSize="Size.Medium"
+                                          Immediate="true"
+                                          OnBlurred="TriggerReload"
+                                          OnKeyUp="TriggerReload"
+                                          Class="mt-0" />
+                        </ToolBarContent>
+                        <HeaderContent>
+                            <MudTh></MudTh>
+                            <MudTh>Order ID</MudTh>
+                            <MudTh>Fecha</MudTh>
+                            <MudTh>Porcentaje Comisión</MudTh>
+                            <MudTh>IsActive</MudTh>
+                            <MudTh></MudTh>
+
+                        </HeaderContent>
+                        <RowTemplate Context="despachoRow">
+                            <MudTd>
+                                <MudFab Color="Color.Tertiary" Size="Size.Small"
+                                        StartIcon="@Icons.Material.Filled.ShoppingCart"
+                                        OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))"
+                                        DropShadow="false" />
+                            </MudTd>
+
+                            <MudTd DataLabel="ID">@despachoRow.IdDespacho</MudTd>
+                            <MudTd DataLabel="Nombre">@despachoRow.FechaDespacho</MudTd>
+                            <MudTd DataLabel="Codigo">@($"{despachoRow.PercentageCommission} %")</MudTd>
+
+                            <MudTd DataLabel="IsActive">
+                                @if (despachoRow.IdEstado == 1)
+                                {
+                                    <span>Si</span>
+                                }
+                                else
+                                {
+                                    <span>No</span>
+                                }
+                            </MudTd>
+
+
+
+                            <MudTd>
+                                <MudFab Color="Color.Secondary"
+                                        StartIcon="@Icons.Material.Filled.Edit"
+                                        Size="Size.Small"
+                                        IconSize="Size.Small"
+                                        OnClick="@(() => AbrirTabEdicionDespacho(despachoRow))" />
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudItem>
+            </MudContainer>
+        }
+        @if (_verDetalle)
+        {
+
+            @* <ProductEdit Product="@productSelected" OnSave="GuardarProducto" OnCancel="CancelarEdicion" /> *@
+        }
+
+
+
+
+
+    </Authorized>
+</AuthorizeView>
+
+

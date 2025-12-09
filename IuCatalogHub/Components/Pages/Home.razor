@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager navigator
+@inject IJSRuntime JS
+
+
+<AuthorizeView>
+    <Authorized>
+        <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3" Style="height:100vh;">
+            <MudItem xs="12" sm="6" md="4" lg="2">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Info card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title.</p>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-center">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => btnGo_To("/producto"))">Catalogs</MudButton>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" lg="2">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Success card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title.</p>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-center">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => btnGo_To("/Shipment"))">Orders</MudButton>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+
+
+
+
+    </Authorized>
+    <NotAuthorized>
+        <Login />
+    </NotAuthorized>
+</AuthorizeView>
+
+

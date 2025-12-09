@@ -1,0 +1,83 @@
+﻿@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthProvider
+@inject IAuthService _authService
+
+@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialog />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudThemeProvider />
+<MudSnackbarProvider />
+
+
+
+
+<div class="page">
+    @* <div class="sidebar">
+        <NavMenu />
+    </div> *@
+
+    <main>
+        @if (VerLogin)
+        {
+            <div class="topbar d-flex justify-content-between align-items-center p-3 shadow-sm bg-light" style="background:rgb(90 74 227) !important;">
+                @* <button class="btn btn-sm btn-outline-secondary" style="color:white;">
+                    <span class="material-symbols-outlined"></span>
+                </button> *@
+                <label>&nbsp;</label>
+                <div style="display: flex; align-items: center; gap: 10px;color:white;">
+                    <span style="color:white !important;font-size: 1rem; font-weight:400; ">@usuario.FirstName</span>
+                    <MudTooltip Text="Cerrar Cesión">
+                        <a style="cursor:pointer; font-weight:700; color:white;" @onclick="@(CerrarSesion_OnClick)">
+                            <span class="material-symbols-outlined">logout</span>
+                        </a>
+                    </MudTooltip>
+
+                </div>
+            </div>
+
+        }
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    bool VerLogin;
+    private UserModel usuario = new();
+    private bool menuVisible = true;
+    void ToggleMenu() => menuVisible = !menuVisible;
+
+    protected override async Task OnInitializedAsync()
+    {
+        StateHasChanged();
+        var estadoAuth = await AuthProvider.GetAuthenticationStateAsync();
+        var user = estadoAuth.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            VerLogin = false;
+
+        }
+        else
+        {
+            usuario = estadoAuth.User.ToUsuarioModel();
+            VerLogin = true;
+        }
+        StateHasChanged();
+    }
+
+    private async Task CerrarSesion_OnClick()
+    {
+        await _authService.LogoutAsync();
+        navigation.NavigateTo("/", true);
+    }
+}

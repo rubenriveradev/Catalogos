@@ -1,0 +1,27 @@
+﻿<CascadingAuthenticationState>
+    @* <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true" OnNavigateAsync="HandleNavigation"> *@
+    <Router AppAssembly="@typeof(Program).Assembly"  OnNavigateAsync="HandleNavigation">
+        <Found Context="routeData">          
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        </Found>
+        <NotFound>
+            
+        </NotFound>
+
+    </Router>
+</CascadingAuthenticationState>
+@code {
+    [Inject] NavigationManager navigation { get; set; }
+    private Task HandleNavigation(Microsoft.AspNetCore.Components.Routing.NavigationContext args)
+    {
+        // Aquí puedes inspeccionar args.Path y decidir si redirigir
+        if (args.Path == "ruta-especifica")
+        {
+            navigation.NavigateTo("/componente-generico", forceLoad: false);
+        }
+
+        return Task.CompletedTask;
+    }
+
+
+}

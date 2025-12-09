@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="IuCatalogHub/IuCatalogHub.csproj" />
+  <Project Path="LnCatalogHub/LnCatalogHub.csproj" />
+  <Project Path="Models/Models.csproj" />
+</Solution>

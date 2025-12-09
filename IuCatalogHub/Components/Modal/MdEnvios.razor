@@ -1,0 +1,49 @@
+﻿@inject SerCatalogo _serCatalogo
+@inject SerEnvio _serEnvio
+@inject ISnackbar _snackBar
+
+<MudDialog>
+    <DialogContent>
+        <MudForm>
+            <MudTextField Label="Envio ID" @bind-Value="_envioModel.IdDespacho" Disabled Class="mt-4" />
+            <MudNumericField @bind-Value="_envioModel.PercentageCommission" Label="Percentage Commission" FullWidth="true" LabelColor="Color.Info" Class="mt-4" />
+            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Estado" @bind-Value="@FechaEnvio" DateFormat="yyyy-MM-dd"  Class="mt-4" />
+
+            <MudDatePicker @bind-Value="@FechaEnvio"
+                           Variant="Variant.Outlined"
+                           Margin="Margin.Dense"
+                           PickerVariant="PickerVariant.Dialog"
+                           Label="Fecha Envio"
+                           DateFormat="yyyy-MM-dd"
+                           Date="FechaEnvio"
+                           DateChanged="OnDateChange" />
+
+
+
+
+
+
+            <MudSelect T="int" Label="Estado Despacho" @bind-Value="_envioModel.IdEstado"
+                       Variant="Variant.Outlined" Class="mt-4">
+                @if (lsEstados != null)
+                {
+                    
+                    @if (lsEstados.Count > 0)
+                    {                    
+                        @foreach (var item in lsEstados)
+                        {
+                            <MudSelectItem T="int" Value="@item.Codigo">@item.Descripcion</MudSelectItem>
+                        }
+                    }
+                    
+                }
+            </MudSelect>
+
+        </MudForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Guardar">Guardar</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="Cancelar">Cancelar</MudButton>
+    </DialogActions>
+</MudDialog>

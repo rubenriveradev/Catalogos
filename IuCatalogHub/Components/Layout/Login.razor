@@ -1,0 +1,65 @@
+﻿@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthProvider
+@inject IAuthService _authService
+
+<MudPaper Class="pa-6 mx-auto" MaxWidth="420px" Elevation="6">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+        <MudAvatar Color="Color.Primary" Variant="Variant.Filled">
+            <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
+        </MudAvatar>
+
+        <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-2">Iniciar Sesión</MudText>
+
+    </div>
+
+
+    <MudForm @ref="form">
+        <MudTextField For="@(() => loginModel.Username)"
+                      @bind-Value="loginModel.Username"
+                      Label="Usuario"
+                      Required="true"
+                      Immediate="true"
+                      Class="mb-3" />
+
+        <MudTextField For="@(() => loginModel.Password)"
+                      @bind-Value="loginModel.Password"
+                      Label="Contraseña"
+                      InputType="@(showPassword? InputType.Text: InputType.Password)"
+                      Adornment="Adornment.End"
+                      AdornmentIcon="@(showPassword? Icons.Material.Filled.VisibilityOff : Icons.Material.Filled.Visibility)"
+                      OnAdornmentClick="ToggleShowPassword"
+                      Required="true"
+                      Immediate="true"
+                      Class="mb-2" />
+        <br />
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Type="Submit"
+                   Disabled="isLoading"
+                   FullWidth="true"
+                   Class="mb-3"
+                   OnClick="OnLogin">
+            @if (isLoading)
+            {
+                <MudProgressCircular Indeterminate="true" Class="mr-2" />
+                <label>Procesando...</label>
+            }
+            else
+            {
+
+                <label> Entrar</label>
+            }
+        </MudButton>
+
+        <MudDivider Class="my-3" />
+        <div class="d-flex justify-center mud-typography-body2 mb-2"></div>
+        <div class="d-flex justify-center">
+            <MudIconButton Icon="Icons.Material.Filled.Facebook" Color="Color.Primary" Class="mx-1" />
+            <MudIconButton Icon="Icons.Material.Filled.Google" Color="Color.Error" Class="mx-1" />
+            <MudIconButton Icon="Icons.Material.Filled.Twitter" Color="Color.Info" Class="mx-1" />
+        </div>
+
+
+    </MudForm>
+
+</MudPaper>
