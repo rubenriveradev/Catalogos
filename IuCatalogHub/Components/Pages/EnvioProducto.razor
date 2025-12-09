@@ -1,6 +1,51 @@
 ﻿@page "/envio-producto/{id:int}"
+@inject SerEnvio _serEnvios
+@inject ISnackbar _snackBar
 
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
+    <MudGrid>
+        <MudItem xs="12" sm="10">
+            <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Size="Size.Small" Class="me-1" />
+                Producto
+            </MudButton>
+        </MudItem>
+        <MudItem xs="12" sm="2">
+            <MudPaper Class="pa-1 mud-height-full">
+                @if (envioSelected != null && envioSelected.IdDespacho > 0)
+                {
+                    <MudGrid Spacing="0">
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Envio No</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.IdDespacho</MudText>
+                        </MudItem>
 
-<h3>EnvioProducto</h3>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Fecha</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.FechaDespacho</MudText>
+                        </MudItem>
 
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Comision</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@($"{envioSelected.PercentageCommission} %")</MudText>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
+    <MudGrid>
+        <MudItem xs="12" sm="6">Lista de Productos</MudItem>
+        <MudItem xs="12" sm="6"> Productos en envio</MudItem>
+        </MudGrid>
+</MudContainer>
 
