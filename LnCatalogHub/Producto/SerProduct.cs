@@ -56,25 +56,26 @@ namespace LnCatalogHub.Producto
 
             using var connection = new SqlConnection(cadenaConexion);
             var parametros = new {
-                prod.IdProduct,
-                prod.ItemID,
-                prod.ProductName,
-                prod.UPC,
-                prod.Store,
-                prod.Mattel,
-                prod.CostPrice,
-                prod.SalePrice,
-                prod.WFS,
-                prod.StorageFee_WFS,
-                prod.PercentageCommission,
-                prod.Commission,
-                prod.Weight,
-                prod.Length,
-                prod.Width,
-                prod.Height,
-                prod.IsActive,
-                prod.ImageData,
-                prod.UserId
+                prod.IdProduct
+                ,prod.ItemID
+                ,prod.UPC
+                ,prod.ProductName
+                ,prod.Store
+                ,prod.Mattel
+                ,prod.Weight
+                ,prod.Length
+                ,prod.Width
+                ,prod.Height
+                ,prod.CostPrice
+                ,prod.SalePrice
+                ,prod.WFS
+                ,prod.StorageFee_WFS
+                ,prod.Miscelaneous_Shipment
+                ,prod.PercentageCommission
+                ,prod.FactorPoundFeeShipment
+                ,prod.IsActive
+                ,prod.ImageData
+                ,prod.UserId
             };
 
             try

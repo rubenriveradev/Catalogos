@@ -5,9 +5,8 @@
 <MudDialog>
     <DialogContent>
         <MudForm>
-            <MudTextField Label="Envio ID" @bind-Value="_envioModel.IdDespacho" Disabled Class="mt-4" />
-            <MudNumericField @bind-Value="_envioModel.PercentageCommission" Label="Percentage Commission" FullWidth="true" LabelColor="Color.Info" Class="mt-4" />
-            <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Estado" @bind-Value="@FechaEnvio" DateFormat="yyyy-MM-dd"  Class="mt-4" />
+            <MudTextField Label="Envio ID" @bind-Value="_envioModel.IdDespacho" Disabled Class="mt-4" />            
+            @* <MudDatePicker PickerVariant="PickerVariant.Dialog" Label="Estado" @bind-Value="@FechaEnvio" DateFormat="yyyy-MM-dd"  Class="mt-4" /> *@
 
             <MudDatePicker @bind-Value="@FechaEnvio"
                            Variant="Variant.Outlined"

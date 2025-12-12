@@ -78,8 +78,11 @@
                             <MudTd>
                                 @if (productRow.IdImage > 0)
                                 {
-                                    <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
-                                         style="max-width:50px; border-radius:8px;" />
+                                    @if (productRow.ImageData != null && productRow.ImageData.Length > 0)
+                                    {
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
+                                             style="max-width:50px; border-radius:8px;" />
+                                    }
                                 }
                             </MudTd>
 

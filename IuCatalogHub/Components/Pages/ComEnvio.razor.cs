@@ -147,10 +147,13 @@ namespace IuCatalogHub.Components.Pages
             if (!result.Canceled)
             {
                 _verListado = false;
-                await CargarDespachos();
+                
                 _verListado = true;
-                StateHasChanged();
+               
             }
+            lsDespachos = new List<EnvioModel>();
+            await CargarDespachos();
+            StateHasChanged();
         }
 
         private async Task AbrirAdicionProductosEnvio( int idEnvio)
