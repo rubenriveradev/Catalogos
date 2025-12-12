@@ -1,6 +1,122 @@
 ﻿@page "/envio-producto/{id:int}"
+@inject SerEnvio _serEnvios
+@inject ISnackbar _snackBar
+@inject SerProduct _serProductos
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
+    <MudGrid>
+        <MudItem xs="12" sm="10">
+            <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Size="Size.Small" Class="me-1" />
+                Producto
+            </MudButton>
+        </MudItem>
+        <MudItem xs="12" sm="2">
+            <MudPaper Class="pa-1 mud-height-full">
+                @if (envioSelected != null && envioSelected.IdDespacho > 0)
+                {
+                    <MudGrid Spacing="0">
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Envio No</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.IdDespacho</MudText>
+                        </MudItem>
+
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Fecha</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.FechaDespacho</MudText>
+                        </MudItem>
+
+                        <MudItem xs="6">
+                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Comision</MudText>
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@($"{envioSelected.PercentageCommission} %")</MudText>
+                        </MudItem>
+                    </MudGrid>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+
+            <MudTable T="Products" Style="font-size:0.55rem !important;"
+                      ServerData="LoadServerData"
+                      RowsPerPage="10"
+                      RowsPerPageOptions="new int[] {5, 10, 20, 50}"
+                      Bordered="true"
+                      Striped="true"                      
+                      Hover="true"
+                      Dense="true"
+                      Breakpoint="Breakpoint.Sm"
+                      Elevation="1"
+                      @bind-SelectedItem="productSelected"
+                      @ref="tableRef">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField @bind-Value="_productoBuscar"
+                                  Placeholder="Buscar"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search"
+                                  IconSize="Size.Small"
+                                  Immediate="true"
+                                  OnBlurred="TriggerReload"
+                                  OnKeyUp="TriggerReload"
+                                  Class="mt-0" />
+                </ToolBarContent>
+                <HeaderContent >
+                    <MudTh>ItemID</MudTh>
+                    <MudTh>ProductoName</MudTh>
+                    <MudTh>UPC</MudTh>
+                    <MudTh>Price</MudTh>
+                    <MudTh>IsActive</MudTh>
+                    <MudTh>Foto</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate Context="productRow">
+                    <MudTd DataLabel="ID">@productRow.ItemID</MudTd>
+                    <MudTd DataLabel="Nombre">@productRow.ProductName</MudTd>
+                    <MudTd DataLabel="Codigo">@productRow.UPC</MudTd>
+                    <MudTd DataLabel="Precio">@productRow.SalePrice.ToString("C", CultureInfo.CurrentCulture)</MudTd>
+                    <MudTd DataLabel="Uni. Medidad">
+                        @if (productRow.IsActive)
+                        {
+                            <span>Si</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+                        }
+                    </MudTd>
+                    <MudTd>
+                        @if (productRow.IdImage > 0)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
+                                 style="max-width:50px; border-radius:8px;" />
+                        }
+                    </MudTd>
 
 
-<h3>EnvioProducto</h3>
+                    <MudTd>
+                        <MudFab Style="@($"color:{Colors.Gray.Lighten4}; background:{Colors.Blue.Accent3}")"
+                                StartIcon="@Icons.Material.Filled.Add"
+                                Size="Size.Small"
+                                IconSize="Size.Small"
+                                OnClick="@(() => AdicionarProductoEnvio(productRow))" />
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
 
+       
+        <MudItem xs="12" sm="6"> Productos en envio</MudItem>
+        </MudGrid>
+</MudContainer>
 

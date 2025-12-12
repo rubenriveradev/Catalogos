@@ -23,6 +23,8 @@ namespace Models
         public decimal SalePrice { get; set; }
         public decimal WFS { get; set; }
         public decimal StorageFee_WFS { get; set; }
+        public decimal FactorPoundFeeShipment { get; set; }
+        
         public decimal Miscelaneous_Shipment { get; set; }
         public decimal PercentageCommission { get; set; }
         public decimal Commission { get; set; } 

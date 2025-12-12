@@ -116,6 +116,9 @@ namespace IuCatalogHub.Components.Pages
 
         private async Task AbrirTabEdicionProducto(Products item)
         {
+            item.Commission = Math.Round(item.SalePrice * (item.PercentageCommission / 100),3);
+
+
             productSelected = item;
             productSelected.UserId = usuLogueado.UserId;
             _verListado = false;

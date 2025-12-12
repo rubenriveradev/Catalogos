@@ -13,80 +13,125 @@
                 <MudItem xs="12" sm="12">
                     <MudTextField @bind-Value="Product.ProductName" Label="Product Name" Required="true" FullWidth="true" />
                 </MudItem>
-                <MudItem xs="12" sm="4">
-                    <MudTextField @bind-Value="Product.ItemID" Label="Item ID" FullWidth="true" Class="mt-4" />
-                    <MudTextField @bind-Value="Product.Store" Label="Store" FullWidth="true" Class="mt-4" />
-                    <MudNumericField @bind-Value="Product.CostPrice" Label="Cost Price" FullWidth="true" LabelColor="Color.Info" Class="mt-4" />
-                    <MudNumericField @bind-Value="Product.WFS" Label="WFS" FullWidth="true" LabelColor="Color.Warning" Class="mt-4" />
-                    <MudNumericField T="decimal?" Label="Percentage Commission (%)" Value="Product.PercentageCommission" ValueChanged="PercentageCommission_change" Class="mt-4" />
 
-                    <MudTextField @bind-Value="Product.Weight" Label="Weight" Color="Color.Primary" Class="mt-4" />
-                    <MudTextField @bind-Value="Product.Width" Label="Width" Color="Color.Primary" Class="mt-4" />
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.ItemID" Label="Item ID" FullWidth="true" Class="mt-0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.UPC" Label="UPC" FullWidth="true" LabelColor="Color.Success" Class="mt-0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Store" Label="Store" FullWidth="true" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Mattel" Label="Mattel" FullWidth="true" LabelColor="Color.Warning" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField @bind-Value="Product.CostPrice" Label="Cost Price" FullWidth="true" LabelColor="Color.Info" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField T="decimal?" Value="Product.SalePrice" ValueChanged="SalePrice_change" Label="Sale Price" Color="Color.Primary" Class="mt-0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Weight" Label="Weight" Color="Color.Primary" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Length" Label="Length" Color="Color.Primary" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Width" Label="Width" Color="Color.Primary" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudTextField @bind-Value="Product.Height" Label="Height" Color="Color.Primary" Class="mt-0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="3">
+                    <MudNumericField @bind-Value="Product.WFS" Label="WFS" FullWidth="true" LabelColor="Color.Warning" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField @bind-Value="Product.StorageFee_WFS" Label="Storage Fee WFS" FullWidth="true" LabelColor="Color.Warning" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField @bind-Value="Product.Miscelaneous_Shipment" Label="Miscelaneous Shipment" FullWidth="true" LabelColor="Color.Warning" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField T="decimal?" Label="Percentage Commission (%)" Value="Product.PercentageCommission" ValueChanged="PercentageCommission_change" Class="mt-0" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudNumericField T="decimal?" Label="Factor PoundFeeShipment" Value="Product.FactorPoundFeeShipment" ValueChanged="PercentageCommission_change" Class="mt-0" />
+                </MudItem>                
+                <MudItem xs="12" sm="3">
+                    <MudNumericField Disabled @bind-Value="Product.Commission" Label="Commission" FullWidth="true" LabelColor="Color.Primary" Class="mt-0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="3">
                     <MudSwitch T="bool"
                                Value="@Product.IsActive" Color="Color.Primary"
                                ValueChanged="Activo_onChange" Label="@nomEstado" />
                 </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                        <ActivatorContent>
+                            <MudIconButton Color="Color.Info" Size="Size.Large"
+                                           Icon="@Icons.Material.Filled.PhotoCamera">
+                            </MudIconButton>
+                        </ActivatorContent>
+                    </MudFileUpload>
+                    </MudItem>
+            </MudGrid>
 
-                <!-- Columna 2 -->
-                <MudItem xs="12" sm="4">
-                    <MudTextField @bind-Value="Product.UPC" Label="UPC" FullWidth="true" LabelColor="Color.Success" Class="mt-4" />
-                    <MudTextField @bind-Value="Product.Mattel" Label="Mattel" FullWidth="true" LabelColor="Color.Warning" Class="mt-4" />
+            <MudGrid>
+                @* <MudItem xs="12" sm="6"> *@
+                   @*  <MudItem xs="12" sm="6" Class="d-flex justify-center align-center h-50">
+                         <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+                            <ActivatorContent>
+                                <MudIconButton Color="Color.Info" Size="Size.Large"
+                                               Icon="@Icons.Material.Filled.PhotoCamera">
+                                </MudIconButton>
+                            </ActivatorContent>
+                        </MudFileUpload> 
+                    </MudItem> *@
 
-                    <MudNumericField T="decimal?"
-                                     Value="Product.SalePrice"
-                                     ValueChanged="SalePrice_change"
-                                     Label="Sale Price"
-                                     Color="Color.Primary"
-                                     Class="mt-4" />
+                    <MudItem xs="12" sm="6" Class="d-flex justify-center">
+                        <MudCard>
+                            <MudCardContent>
+                                @if (Product.ImageData != null)
+                                {
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(Product.ImageData)"
+                                         style="max-width:150px; border-radius:8px;" />
+                                }
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
 
-
-
-                    <MudNumericField @bind-Value="Product.StorageFee_WFS" Label="StorageFee WFS" FullWidth="true" LabelColor="Color.Primary" Class="mt-4" />
-                    <MudNumericField Disabled @bind-Value="Product.Commission" Label="Commission" FullWidth="true" LabelColor="Color.Primary" Class="mt-4" />
-                    <MudTextField @bind-Value="Product.Length" Label="Length" Color="Color.Primary" Class="mt-4" />
-                    <MudTextField @bind-Value="Product.Height" Label="Height" Color="Color.Primary" Class="mt-4" />
-
-
+                @* </MudItem> *@
+                <MudItem xs="12" sm="6">
+                    <MudStack Row="true" Justify="Justify.FlexEnd" Spacing="3">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save">
+                            Guardar
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="Cancel" StartIcon="@Icons.Material.Filled.Cancel">
+                            Cancelar
+                        </MudButton>
+                    </MudStack>
                 </MudItem>
 
-                <!-- Columna 3 -->
-                <MudItem xs="12" sm="4" Class="d-flex justify-center align-center">
-                    <MudGrid>
-                        <MudItem xs="12" Class="d-flex justify-center">
-                            <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
-                                <ActivatorContent>
-                                    <MudIconButton Color="Color.Info" Size="Size.Large"
-                                                   Icon="@Icons.Material.Filled.PhotoCamera">
-                                    </MudIconButton>
-                                </ActivatorContent>
-                            </MudFileUpload>
-                        </MudItem>
 
-                        <MudItem xs="12" Class="d-flex justify-center">
-                            <MudCard>
-                                <MudCardContent>
-                                    @if (Product.ImageData != null)
-                                    {
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(Product.ImageData)"
-                                             style="max-width:150px; border-radius:8px;" />
-                                    }
-                                </MudCardContent>
-                            </MudCard>
-                        </MudItem>
-                    </MudGrid>
-                </MudItem>
 
 
             </MudGrid>
 
-            <MudStack Row="true" Justify="Justify.Center" Spacing="3">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save" StartIcon="@Icons.Material.Filled.Save">
-                    Guardar
-                </MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="Cancel" StartIcon="@Icons.Material.Filled.Cancel">
-                    Cancelar
-                </MudButton>
-            </MudStack>
+
+
+
+
+
+
+
+
         </MudForm>
     </MudPaper>
 </MudContainer>
