@@ -28,10 +28,11 @@ namespace IuCatalogHub.Components.Modal
                     FechaEnvio = DateTime.Parse(_envioModel.FechaDespacho);
                 }
                 await CargarEstados("EST_ENVIOS");
-
             }
             StateHasChanged();
         }
+
+        
 
         private async Task CargarEstados(string v)
         {

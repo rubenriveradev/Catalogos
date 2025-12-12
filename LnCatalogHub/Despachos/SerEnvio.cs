@@ -49,8 +49,7 @@ namespace LnCatalogHub.Despachos
             using var connection = new SqlConnection(cadenaConexion);
             var parametros = new
             {
-                env.IdDespacho,
-                env.PercentageCommission,
+                env.IdDespacho,                
                 env.FechaDespacho,
                 env.IdEstado,
                 env.UsserId

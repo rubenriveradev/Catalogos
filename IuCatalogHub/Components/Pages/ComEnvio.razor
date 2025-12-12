@@ -55,7 +55,7 @@
                             <MudTh></MudTh>
                             <MudTh>Order ID</MudTh>
                             <MudTh>Fecha</MudTh>
-                            <MudTh>Porcentaje Comisión</MudTh>
+                            <MudTh>Estado</MudTh>
                             <MudTh>IsActive</MudTh>
                             <MudTh></MudTh>
 
@@ -70,21 +70,30 @@
 
                             <MudTd DataLabel="ID">@despachoRow.IdDespacho</MudTd>
                             <MudTd DataLabel="Nombre">@despachoRow.FechaDespacho</MudTd>
-                            <MudTd DataLabel="Codigo">@($"{despachoRow.PercentageCommission} %")</MudTd>
-
-                            <MudTd DataLabel="IsActive">
-                                @if (despachoRow.IdEstado == 1)
+                            <MudTd DataLabel="Nombre" Class="d-flex align-center">
+                                @if (@despachoRow.IdEstado == 1)
                                 {
-                                    <span>Si</span>
+                                    <MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Color="Color.Success" Title="@despachoRow.Estado" />
+                                    <MudText Typo="Typo.body2" Color="Color.Success">&nbsp; @despachoRow.Estado</MudText>
                                 }
                                 else
                                 {
-                                    <span>No</span>
+                                    @if (@despachoRow.IdEstado == 2)
+                                    {
+                            
+                                        <MudIcon Icon="@Icons.Material.Filled.ElectricCar" Color="Color.Primary" Title="@despachoRow.Estado" />
+                                        <MudText Typo="Typo.body2" Color="Color.Primary">&nbsp;@despachoRow.Estado</MudText>
+                                    }
+                                    else
+                                    {
+                                        @if (@despachoRow.IdEstado == 3)
+                                        {
+                                            <MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Warning" Title="@despachoRow.Estado" />
+                                            <MudText Typo="Typo.body2" Color="Color.Warning">&nbsp;@despachoRow.Estado</MudText>
+                                        }                                        
+                                    }                                    
                                 }
                             </MudTd>
-
-
-
                             <MudTd>
                                 <MudFab Color="Color.Secondary"
                                         StartIcon="@Icons.Material.Filled.Edit"
