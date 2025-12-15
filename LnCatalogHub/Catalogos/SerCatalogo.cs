@@ -25,7 +25,7 @@ namespace LnCatalogHub.Catalogos
 
             try
             {
-                var resp = await connection.QueryAsync<CatalogosModel>("dbo.ConsultarCatalogo", parametros, commandType: CommandType.StoredProcedure);
+                var resp = await connection.QueryAsync<CatalogosModel>("dbo.Get_MasterList", parametros, commandType: CommandType.StoredProcedure);
                 if (resp == null)
                 {
                     return new Response<List<CatalogosModel>>(true, "sin resultados", null);

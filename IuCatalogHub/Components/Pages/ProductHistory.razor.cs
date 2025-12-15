@@ -1,24 +1,24 @@
 ﻿using IuCatalogHub.Components.Auth;
 using Models;
 using MudBlazor;
-using static MudBlazor.CategoryTypes;
 
 namespace IuCatalogHub.Components.Pages
 {
-    public partial class ComProducto
+    public partial class ProductHistory
     {
+        public bool _verListado = false;
+        public bool _verHistorico = false;        
+        public bool _loading = true;
         private UserModel usuLogueado = new();
         List<Products> lsProductos = new List<Products>();
         private Products productSelected = null;
         private MudTable<Products> tableRef;
 
-        public bool _verListado = false;
-        public bool _verDetalle = false;
+        List<EnvioDetailModel>lsProductHistorico = new List<EnvioDetailModel>();
 
-
-        public bool _loading = true;
 
         private string _cadenaBuscar = "";
+
 
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,7 +33,7 @@ namespace IuCatalogHub.Components.Pages
                 }
                 await CargarProductos();
                 _verListado = true;
-                _verDetalle = !_verListado;
+                
 
 
                 _loading = false;
@@ -41,6 +41,8 @@ namespace IuCatalogHub.Components.Pages
             StateHasChanged();
 
         }
+
+
         private async Task Regresar_onClick()
         {
             navigation.NavigateTo("/", true);
@@ -62,18 +64,6 @@ namespace IuCatalogHub.Components.Pages
             _loading = false;
         }
 
-        private void TriggerReload()
-        {
-            tableRef?.ReloadServerData();
-        }
-        private async Task AbrirTabNewProducto()
-        {
-            productSelected = new Products();
-            productSelected.UserId = usuLogueado.UserId;
-            _verListado = false;
-            _verDetalle = !_verDetalle;
-            StateHasChanged();
-        }
         private async Task<TableData<Products>> LoadServerData(TableState state, CancellationToken cancellationToken)
         {
             if (lsProductos.Count == 0)
@@ -101,39 +91,35 @@ namespace IuCatalogHub.Components.Pages
 
 
         }
-
-
-        private async Task GuardarProducto(Products product)
+        private void TriggerReload()
         {
-            _verDetalle = false;
-            await CargarProductos();
-            _verListado = !_verDetalle;
-            productSelected = null;
-            StateHasChanged();
+            tableRef?.ReloadServerData();
         }
-
-        private void CancelarEdicion()
-        {
-            _verDetalle = false;
-            _verListado = !_verDetalle;
-            productSelected = null;
-
-        }
-
-
-        private async Task AbrirTabEdicionProducto(Products item)
-        {
-            item.Commission = Math.Round(item.SalePrice * (item.PercentageCommission / 100),3);
-
-
-            productSelected = item;
-            productSelected.UserId = usuLogueado.UserId;
-            _verListado = false;
-            _verDetalle = !_verDetalle;
-            StateHasChanged();
-        }
-
         
+
+        private async Task VerHistorial_onClick(Products item)
+        {
+
+            var resp = await _serEnvios.ConsultarProductosHistorico(item.IdProduct);
+            if(!resp.IsError)
+            {
+                lsProductHistorico = resp.Info;
+                productSelected = item;
+                _verListado = false;
+                _verHistorico = true;
+            }
+            else
+            {
+                _snackBar.Add(resp.MensajeError, Severity.Error, c => c.SnackbarVariant = Variant.Outlined);
+                return;
+            }
+        }
+
+        private async Task Volver_onClick()
+        {
+            _verListado = true;
+            _verHistorico = false;
+        }
 
 
 

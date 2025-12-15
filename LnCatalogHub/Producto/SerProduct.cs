@@ -81,7 +81,7 @@ namespace LnCatalogHub.Producto
             try
             {
                 var resp = await connection.QueryAsync<RespuestaBD>(
-                    "dbo.CrearModificarProducto",
+                    "dbo.CreateModify_Product",
                     parametros,
                     commandType: CommandType.StoredProcedure
                     );

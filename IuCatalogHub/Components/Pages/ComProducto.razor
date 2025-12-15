@@ -13,11 +13,18 @@
             <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
 
                 <MudGrid Justify="Justify.SpaceBetween">
-                    <MudItem xs="12" sm="9">
+                    <MudItem xs="12" sm="2">
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Warning" OnClick="Regresar_onClick">
+                            <MudIcon Icon="@Icons.Material.Rounded.Backspace" Size="Size.Small" Class="me-1" />
+                            Regresar
+                        </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="8">
                         <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Primary">Administrador Catalogo</MudText>
                     </MudItem>
 
-                    <MudItem xs="12" sm="3">
+                    <MudItem xs="12" sm="2">
                         <MudButton Variant="Variant.Filled"
                                    StartIcon="@Icons.Material.Filled.Add"
                                    Color="Color.Primary"

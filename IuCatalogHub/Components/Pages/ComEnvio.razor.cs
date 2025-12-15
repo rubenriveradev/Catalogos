@@ -41,7 +41,10 @@ namespace IuCatalogHub.Components.Pages
 
         }
 
-
+        private async Task Regresar_onClick()
+        {
+            navigation.NavigateTo("/", true);
+        }
 
 
         private async Task AbrirTabNewProducto()
@@ -77,7 +80,7 @@ namespace IuCatalogHub.Components.Pages
             {
                 data = data.Where(x =>
                     (x.IdDespacho.ToString()?.Contains(_cadenaBuscar, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                    (x.FechaCreacion?.Contains(_cadenaBuscar, StringComparison.OrdinalIgnoreCase) ?? false));
+                    (x.FechaDespacho?.Contains(_cadenaBuscar, StringComparison.OrdinalIgnoreCase) ?? false));
             }
             var pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToList();
 
@@ -148,12 +151,14 @@ namespace IuCatalogHub.Components.Pages
             {
                 _verListado = false;
                 
-                _verListado = true;
+               // _verListado = true;
                
             }
             lsDespachos = new List<EnvioModel>();
+            _verListado = false;
             await CargarDespachos();
             StateHasChanged();
+            _verListado = true;
         }
 
         private async Task AbrirAdicionProductosEnvio( int idEnvio)

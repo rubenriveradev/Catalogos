@@ -15,7 +15,7 @@
                         <p class="card-text">Some quick example text to build on the card title.</p>
                     </div>
                     <div class="card-footer bg-light d-flex justify-content-center">
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => btnGo_To("/producto"))">Catalogs</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@(() => btnGo_To("/producto"))">Products</MudButton>
                     </div>
                 </div>
             </MudItem>
@@ -32,6 +32,23 @@
                     </div>
                 </div>
             </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" lg="2">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Success card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title.</p>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-center">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@(() => btnGo_To("/product-history"))">Product History </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+
+
+
+
         </MudGrid>
 
 
@@ -39,7 +56,10 @@
 
     </Authorized>
     <NotAuthorized>
-        <Login />
+        @if (verLogin)
+        {
+            <Login />
+        }
     </NotAuthorized>
 </AuthorizeView>
 

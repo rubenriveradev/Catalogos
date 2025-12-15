@@ -25,9 +25,9 @@ builder.Services.AddMudServices(
         config.SnackbarConfiguration.PreventDuplicates = false;
         config.SnackbarConfiguration.NewestOnTop = false;
         config.SnackbarConfiguration.ShowCloseIcon = true;
-        config.SnackbarConfiguration.VisibleStateDuration = 1000;
-        config.SnackbarConfiguration.HideTransitionDuration = 500;
-        config.SnackbarConfiguration.ShowTransitionDuration = 500;
+        config.SnackbarConfiguration.VisibleStateDuration = 2000;
+        config.SnackbarConfiguration.HideTransitionDuration = 1000;
+        config.SnackbarConfiguration.ShowTransitionDuration = 1000;
         //config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
     }
 );

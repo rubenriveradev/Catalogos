@@ -1,4 +1,5 @@
-﻿using LnCatalogHub.Despachos;
+﻿using IuCatalogHub.Components.Auth;
+using LnCatalogHub.Despachos;
 using Microsoft.AspNetCore.Components;
 using Models;
 using MudBlazor;
@@ -18,20 +19,55 @@ namespace IuCatalogHub.Components.Pages
         string _productoBuscar;
         private Products productSelected = null;
         private MudTable<Products> tableRef;
+        Color Color = Color.Success;
 
-
+        List<EnvioDetailModel> lsProductosEnvio = new List<EnvioDetailModel>();
 
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                await CargarEnvios(id);
-                await CargarProductos();
+                var estadoAuth = await _authProvider.GetAuthenticationStateAsync();
+                var user = estadoAuth.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    usuLogueado = estadoAuth.User.ToUsuarioModel();
+                    await CargarEnvios(id);
+                    await CargarProductosEnvio(id);
+                    await CargarProductos();
 
+                }
+                _loading = false;
             }
+
+
+
+
             StateHasChanged();
         }
+
+        private async Task CargarProductosEnvio(int id)
+        {
+            var resp = await _serEnvios.ConsultarEnvioDetalle(id);
+            if (!resp.IsError)
+            {
+                lsProductosEnvio = resp.Info;
+            }
+            else
+            {
+                _snackBar.Add(resp.MensajeError, Severity.Error, c => c.SnackbarVariant = Variant.Outlined);
+                return;
+            }
+            _loading = false;
+
+        }
+
+        private async Task Regresar_onClick()
+        {
+            navigation.NavigateTo("/Shipment",true);
+        }
+
 
         private async Task CargarEnvios(int id)
         {
@@ -39,11 +75,11 @@ namespace IuCatalogHub.Components.Pages
             if (!resp.IsError)
             {
                 lsEnvios = resp.Info;
-                if(lsEnvios.Count > 0)
+                if (lsEnvios.Count > 0)
                 {
                     envioSelected = lsEnvios.FirstOrDefault();
                 }
-                
+
 
             }
             else
@@ -106,11 +142,45 @@ namespace IuCatalogHub.Components.Pages
 
         private async Task AdicionarProductoEnvio(Products prod)
         {
-
+           var resp = await _serEnvios.CreaActualizaEnvioDetalle(0, id, prod.IdProduct, 1, usuLogueado.UserId);
+            if (!resp.IsError)
+            {
+                _snackBar.Add("Producto adicionado correctamente", Severity.Success, c => c.SnackbarVariant = Variant.Outlined);
+                await CargarProductosEnvio(id);
+            }
+            else
+            {
+                _snackBar.Add(resp.MensajeError, Severity.Error, c => c.SnackbarVariant = Variant.Outlined);
+                return;
+            }
         }
 
 
+        private async Task QuitarProducto(int idDetalle)
+        {
+            var resp = await _serEnvios.EliminarEnvioDetalle(idDetalle);
+            if (!resp.IsError)
+            {
+                _snackBar.Add("Producto eliminado correctamente", Severity.Success, c => c.SnackbarVariant = Variant.Outlined);
+                await CargarProductosEnvio(id);
+            }
+            else
+            {
+                _snackBar.Add(resp.MensajeError, Severity.Error, c => c.SnackbarVariant = Variant.Outlined);
+                return;
+            }
+        }
 
+        private void OnScroll(ScrollEventArgs e)
+        {
+            Color = (e.FirstChildBoundingClientRect.Top * -1) switch
+            {
+                var x when x < 500 => Color.Primary,
+                var x when x < 1500 => Color.Secondary,
+                var x when x < 2500 => Color.Tertiary,
+                _ => Color.Error
+            };
+        }
 
 
 

@@ -13,11 +13,21 @@
             <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
 
                 <MudGrid Justify="Justify.SpaceBetween">
-                    <MudItem xs="12" sm="9">
+                    <MudItem xs="12" sm="2">
+                        <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Warning" OnClick="Regresar_onClick">
+                            <MudIcon Icon="@Icons.Material.Rounded.Backspace" Size="Size.Small" Class="me-1" />
+                            Regresar
+                        </MudButton>
+                    </MudItem>
+
+
+
+
+                    <MudItem xs="12" sm="8">
                         <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Success">Administrador Envios</MudText>
                     </MudItem>
 
-                    <MudItem xs="12" sm="3">
+                    <MudItem xs="12" sm="2">
                         <MudButton Variant="Variant.Filled"
                                    StartIcon="@Icons.Material.Filled.Add"
                                    Color="Color.Success"
@@ -53,51 +63,60 @@
                         </ToolBarContent>
                         <HeaderContent>
                             <MudTh></MudTh>
-                            <MudTh>Order ID</MudTh>
-                            <MudTh>Fecha</MudTh>
+                            <MudTh>Envio ID</MudTh>
+                            <MudTh>Fecha Envio</MudTh>
                             <MudTh>Estado</MudTh>
-                            <MudTh>IsActive</MudTh>
+                            <MudTh>Accion</MudTh>
                             <MudTh></MudTh>
 
                         </HeaderContent>
                         <RowTemplate Context="despachoRow">
                             <MudTd>
-                                <MudFab Color="Color.Tertiary" Size="Size.Small"
+                                @* <MudFab Color="Color.Tertiary"
+                                        IconSize="Size.Small"
                                         StartIcon="@Icons.Material.Filled.ShoppingCart"
-                                        OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))"
-                                        DropShadow="false" />
+                                        OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))" /> *@
+                                <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Tertiary"
+                                           OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))">Productos</MudButton>
                             </MudTd>
 
                             <MudTd DataLabel="ID">@despachoRow.IdDespacho</MudTd>
-                            <MudTd DataLabel="Nombre">@despachoRow.FechaDespacho</MudTd>
-                            <MudTd DataLabel="Nombre" Class="d-flex align-center">
-                                @if (@despachoRow.IdEstado == 1)
-                                {
-                                    <MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Color="Color.Success" Title="@despachoRow.Estado" />
-                                    <MudText Typo="Typo.body2" Color="Color.Success">&nbsp; @despachoRow.Estado</MudText>
-                                }
-                                else
-                                {
-                                    @if (@despachoRow.IdEstado == 2)
+                            <MudTd DataLabel="Nombre">
+                                <div Class="d-flex align-center">
+                                    @despachoRow.FechaDespacho
+                                </div>
+                            </MudTd>
+                            <MudTd DataLabel="Nombre">
+                                <div class="d-flex align-center">
+
+
+                                    @if (@despachoRow.IdEstado == 1)
                                     {
-                            
-                                        <MudIcon Icon="@Icons.Material.Filled.ElectricCar" Color="Color.Primary" Title="@despachoRow.Estado" />
-                                        <MudText Typo="Typo.body2" Color="Color.Primary">&nbsp;@despachoRow.Estado</MudText>
+                                        <MudIcon Icon="@Icons.Material.Filled.CheckCircleOutline" Color="Color.Success" Title="@despachoRow.Estado" />
+                                        <MudText Typo="Typo.body2" Color="Color.Success">&nbsp; @despachoRow.Estado</MudText>
                                     }
                                     else
                                     {
-                                        @if (@despachoRow.IdEstado == 3)
+                                        @if (@despachoRow.IdEstado == 2)
                                         {
-                                            <MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Warning" Title="@despachoRow.Estado" />
-                                            <MudText Typo="Typo.body2" Color="Color.Warning">&nbsp;@despachoRow.Estado</MudText>
-                                        }                                        
-                                    }                                    
-                                }
+
+                                            <MudIcon Icon="@Icons.Material.Filled.ElectricCar" Color="Color.Primary" Title="@despachoRow.Estado" />
+                                            <MudText Typo="Typo.body2" Color="Color.Primary">&nbsp;@despachoRow.Estado</MudText>
+                                        }
+                                        else
+                                        {
+                                            @if (@despachoRow.IdEstado == 3)
+                                            {
+                                                <MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Warning" Title="@despachoRow.Estado" />
+                                                <MudText Typo="Typo.body2" Color="Color.Warning">&nbsp;@despachoRow.Estado</MudText>
+                                            }
+                                        }
+                                    }
+                                </div>
                             </MudTd>
                             <MudTd>
                                 <MudFab Color="Color.Secondary"
                                         StartIcon="@Icons.Material.Filled.Edit"
-                                        Size="Size.Small"
                                         IconSize="Size.Small"
                                         OnClick="@(() => AbrirTabEdicionDespacho(despachoRow))" />
                             </MudTd>

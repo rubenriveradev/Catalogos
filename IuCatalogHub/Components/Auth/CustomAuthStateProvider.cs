@@ -28,7 +28,7 @@ namespace IuCatalogHub.Components.Auth
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, usuario.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, usuario.FirstName + " " + usuario.LastName + " [" + usuario.RoleName + "]"),
+                    new Claim(ClaimTypes.Name, usuario.FirstName + " " + usuario.LastName),
                     new Claim(ClaimTypes.Role, usuario.RoleId.ToString()),
                     new Claim("NombreRol", usuario.RoleName.ToString()),
                     new Claim("UserName", usuario.UserName),

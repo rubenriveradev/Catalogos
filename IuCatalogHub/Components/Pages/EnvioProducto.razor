@@ -2,54 +2,47 @@
 @inject SerEnvio _serEnvios
 @inject ISnackbar _snackBar
 @inject SerProduct _serProductos
+@inject AuthenticationStateProvider _authProvider
+@inject NavigationManager navigation
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
     <MudGrid>
-        <MudItem xs="12" sm="10">
-            <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary">
-                <MudIcon Icon="@Icons.Material.Filled.Add" Size="Size.Small" Class="me-1" />
-                Producto
+        <MudItem xs="12" sm="3">
+            <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Warning" OnClick="Regresar_onClick" >
+                <MudIcon Icon="@Icons.Material.Rounded.Backspace" Size="Size.Small" Class="me-1" />
+                Regresar
             </MudButton>
         </MudItem>
-        <MudItem xs="12" sm="2">
+        <MudItem xs="12" sm="9">
             <MudPaper Class="pa-1 mud-height-full">
                 @if (envioSelected != null && envioSelected.IdDespacho > 0)
                 {
                     <MudGrid Spacing="0">
-                        <MudItem xs="6">
-                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Envio No</MudText>
+                        <MudItem xs="12" Style="text-align:right;">
+                            <strong style="color:green;">Envio No:&nbsp;</strong>
+                            <label style="color:rgb(254 63 128);">@envioSelected.IdDespacho &nbsp;&nbsp;</label>
+                            <strong style="color:green;">Fecha:&nbsp;</strong>
+                            <strong style="color:rgb(254 63 128);">@envioSelected.FechaDespacho &nbsp;&nbsp;</strong>
                         </MudItem>
-                        <MudItem xs="6">
-                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.IdDespacho</MudText>
-                        </MudItem>
-
-                        <MudItem xs="6">
-                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Fecha</MudText>
-                        </MudItem>
-                        <MudItem xs="6">
-                            <MudText Color="Color.Primary" Style="font-weight:600;" Typo="Typo.caption">@envioSelected.FechaDespacho</MudText>
-                        </MudItem>
-
-                        <MudItem xs="6">
-                            <MudText Color="Color.Success" Typo="Typo.subtitle2">Comision</MudText>
-                        </MudItem>                        
                     </MudGrid>
                 }
             </MudPaper>
+
         </MudItem>
     </MudGrid>
 </MudContainer>
+<MudDivider Class="my-2" />
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-0">
-    <MudGrid>
-        <MudItem xs="12" sm="6">
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+        <MudTabPanel Text="Products">
 
             <MudTable T="Products" Style="font-size:0.55rem !important;"
                       ServerData="LoadServerData"
-                      RowsPerPage="10"
+                      RowsPerPage="20"
                       RowsPerPageOptions="new int[] {5, 10, 20, 50}"
                       Bordered="true"
-                      Striped="true"                      
+                      Striped="true"
                       Hover="true"
                       Dense="true"
                       Breakpoint="Breakpoint.Sm"
@@ -68,39 +61,18 @@
                                   OnKeyUp="TriggerReload"
                                   Class="mt-0" />
                 </ToolBarContent>
-                <HeaderContent >
+                <HeaderContent>
                     <MudTh>ItemID</MudTh>
                     <MudTh>ProductoName</MudTh>
                     <MudTh>UPC</MudTh>
-                    <MudTh>Price</MudTh>
-                    <MudTh>IsActive</MudTh>
-                    <MudTh>Foto</MudTh>
-                    <MudTh></MudTh>
+                    <MudTh Style="width:15%!important;">Price</MudTh>
+                    <MudTh>Accion</MudTh>
                 </HeaderContent>
                 <RowTemplate Context="productRow">
-                    <MudTd DataLabel="ID">@productRow.ItemID</MudTd>
-                    <MudTd DataLabel="Nombre">@productRow.ProductName</MudTd>
-                    <MudTd DataLabel="Codigo">@productRow.UPC</MudTd>
-                    <MudTd DataLabel="Precio">@productRow.SalePrice.ToString("C", CultureInfo.CurrentCulture)</MudTd>
-                    <MudTd DataLabel="Uni. Medidad">
-                        @if (productRow.IsActive)
-                        {
-                            <span>Si</span>
-                        }
-                        else
-                        {
-                            <span>No</span>
-                        }
-                    </MudTd>
-                    <MudTd>
-                        @if (productRow.IdImage > 0)
-                        {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
-                                 style="max-width:50px; border-radius:8px;" />
-                        }
-                    </MudTd>
-
-
+                    <MudTd Style="font-size:0.76rem!important;" DataLabel="ID">@productRow.ItemID</MudTd>
+                    <MudTd Style="font-size:0.76rem!important;" DataLabel="Nombre">@productRow.ProductName</MudTd>
+                    <MudTd Style="font-size:0.76rem!important;" DataLabel="Codigo">@productRow.UPC</MudTd>
+                    <MudTd Style="font-size:0.76rem!important;width:15%!important;" DataLabel="Precio">@productRow.SalePrice</MudTd>
                     <MudTd>
                         <MudFab Style="@($"color:{Colors.Gray.Lighten4}; background:{Colors.Blue.Accent3}")"
                                 StartIcon="@Icons.Material.Filled.Add"
@@ -110,10 +82,102 @@
                     </MudTd>
                 </RowTemplate>
             </MudTable>
-        </MudItem>
 
-       
-        <MudItem xs="12" sm="6"> Productos en envio</MudItem>
-        </MudGrid>
+
+        </MudTabPanel>
+
+        <MudTabPanel Text="Details Orders" BadgeColor="Color.Success" Icon="@Icons.Material.Filled.List">
+            <div id="unique_id_scroll_section" class="ma-0" style="overflow: auto;">
+                <MudPaper Elevation="0" Class="d-flex flex-column justify-space-between py-6">
+                    <MudTable Items="@lsProductosEnvio"
+                              Bordered="true"
+                              FixedHeader="true"                              
+                              Hover="true"                              
+                              Loading="@_loading"
+                              LoadingProgressColor="Color.Info">
+                        <HeaderContent>
+                            <MudTh></MudTh>
+                            <MudTh></MudTh>
+                            <MudTh Class="cssTh">ItemID</MudTh>
+                            <MudTh Class="cssTh">UPC</MudTh>
+                            <MudTh Class="cssTh">ProductName</MudTh>
+                            <MudTh Class="cssTh">Store</MudTh>
+                            <MudTh Class="cssTh">Mattel</MudTh>
+                            <MudTh Class="cssTh">Weight</MudTh>
+                            <MudTh Class="cssTh">Length</MudTh>
+                            <MudTh Class="cssTh">Width</MudTh>
+                            <MudTh Class="cssTh">Height</MudTh>
+                            <MudTh Class="cssTh">Mis Shipment</MudTh>
+                            <MudTh Class="cssTh">CostPrice</MudTh>
+                            <MudTh Class="cssTh">SalePrice</MudTh>
+                            <MudTh Class="cssTh">WFS</MudTh>
+                            <MudTh Class="cssTh">StorageFee WFS</MudTh>
+                            <MudTh Class="cssTh">Per Commission</MudTh>
+                            <MudTh Class="cssTh">Fac Pound Shipment</MudTh>
+                            <MudTh Class="cssTh">Commission</MudTh>
+                            <MudTh Class="cssTh">Pound Shipment</MudTh>
+                            <MudTh Class="cssTh">Profit</MudTh>
+                            <MudTh Class="cssTh">ROI</MudTh>
+                            <MudTh Class="cssTh">WFS_RefFee</MudTh>
+                            
+
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>
+                                <MudText>@context.Nro</MudText>
+                            </MudTd>
+                            <MudTd>
+                                <MudIconButton Style="@($"color:{Colors.Red.Lighten2};")"
+                                     
+                                Icon="@Icons.Material.Filled.DeleteForever" OnClick="@(() => QuitarProducto(@context.IdDetalle))" />
+                            </MudTd>                           
+
+                            <MudTd Style="font-size:0.76rem!important;">@context.ItemID</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.UPC</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.ProductName</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Store</MudTd>
+
+                            <MudTd Style="font-size:0.76rem!important;">@context.Mattel</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Weight</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Length</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Width</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Height</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Miscelaneous_Shipment</MudTd>
+
+                            <MudTd Style="font-size:0.76rem!important;">@context.CostPrice</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.SalePrice</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.WFS</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.StorageFee_WFS</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.PercentageCommission %</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.FactorPoundFeeShipment</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Commission</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.PoundFee_Shipment</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.Profit</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.ROI</MudTd>
+                            <MudTd Style="font-size:0.76rem!important;">@context.WFS_RefFee</MudTd>
+                        </RowTemplate>
+                    </MudTable>
+
+
+
+
+                    <MudScrollToTop TopOffset="100"
+                                    OnScroll="OnScroll"
+                                    Selector="#unique_id_scroll_section"
+                                    VisibleCssClass="visible absolute"
+                                    HiddenCssClass="invisible">
+                        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowUpward" Color="Color">Go to top</MudButton>
+                    </MudScrollToTop>
+                </MudPaper>
+            </div>
+
+        </MudTabPanel>
+
+
+    </MudTabs>
+
+
+
+
 </MudContainer>
 
