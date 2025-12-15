@@ -59,7 +59,7 @@ namespace IuCatalogHub.Components.Modal
             _envioModel.FechaDespacho = FechaEnvio.ToString("yyyy-MM-dd");
 
 
-            var resp = await _serEnvio.Guardarenvios(_envioModel);
+            var resp = await _serEnvio.GuardarEnvios(_envioModel);
             if (!resp.IsError)
             {
                 _snackBar.Add("Envio guardado correctamente", Severity.Success, c => c.SnackbarVariant = Variant.Outlined);

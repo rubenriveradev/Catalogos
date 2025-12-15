@@ -1,5 +1,5 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;
 }
 
 a, .btn-link {
@@ -74,4 +74,20 @@ h1:focus {
     background-color: #ffffff; /* similar a Colors.Shades.White */
     border-radius: 12px;
     padding: 12px; /* equivalente a pa-6 */
+}
+
+
+
+.mud-fab-size-large{
+    width:35px !important;
+    height:35px !important;
+}
+
+.mud-icon-size-small {
+    font-size: 0.85rem !important;
+}
+
+.cssTh {
+    color: rgb(89 74 226) !important;
+    font-size:0.65rem !important;
 }

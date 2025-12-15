@@ -31,10 +31,10 @@ namespace IuCatalogHub.Components.Layout
                 var authState = await AuthProvider.GetAuthenticationStateAsync();
                 var user = authState.User;
                 if (user.Identity?.IsAuthenticated ?? false)
-                {
-                    StateHasChanged();
+                {                    
                     navigation.NavigateTo("/", true); // Ya autenticado, redirige
                 }
+                StateHasChanged();
             }
         }
 
@@ -50,7 +50,7 @@ namespace IuCatalogHub.Components.Layout
             var resp = await _authService.LoginAsync(loginModel.Username, loginModel.Password);
             if (!resp.IsError)
             {
-                navigation.NavigateTo("/", forceLoad: true);
+               // navigation.NavigateTo("/", forceLoad: true);
             }
             else
             {

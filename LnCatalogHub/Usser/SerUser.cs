@@ -25,7 +25,7 @@ namespace LnCatalogHub.Login
             try
             {
                 var resp = await connection.QueryFirstOrDefaultAsync<UserModel>(
-                    "dbo.spValidarUsuario",
+                    "dbo.Validate_User",
                     parametros,
                     commandType: CommandType.StoredProcedure
                     );
