@@ -13,7 +13,7 @@
                 Regresar
             </MudButton>
         </MudItem>
-        <MudItem xs="12" sm="9">
+        <MudItem xs="12" sm="7">
             <MudPaper Class="pa-1 mud-height-full">
                 @if (envioSelected != null && envioSelected.IdDespacho > 0)
                 {
@@ -74,7 +74,8 @@
                     <MudTd Style="font-size:0.76rem!important;" DataLabel="Codigo">@productRow.UPC</MudTd>
                     <MudTd Style="font-size:0.76rem!important;width:15%!important;" DataLabel="Precio">@productRow.SalePrice</MudTd>
                     <MudTd>
-                        <MudFab Style="@($"color:{Colors.Gray.Lighten4}; background:{Colors.Blue.Accent3}")"
+                        <MudFab 
+                                Color="Color.Secondary"
                                 StartIcon="@Icons.Material.Filled.Add"
                                 Size="Size.Small"
                                 IconSize="Size.Small"

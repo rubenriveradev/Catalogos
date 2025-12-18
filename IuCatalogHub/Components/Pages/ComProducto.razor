@@ -4,6 +4,7 @@
 @inject ISerAlert _msg
 @inject SerProduct _serProductos
 @inject ISnackbar _snackBar
+@inject IJSRuntime JS
 
 
 <AuthorizeView>
@@ -11,6 +12,8 @@
         @if (_verListado)
         {
             <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+
 
                 <MudGrid Justify="Justify.SpaceBetween">
                     <MudItem xs="12" sm="2">
@@ -20,7 +23,7 @@
                         </MudButton>
                     </MudItem>
 
-                    <MudItem xs="12" sm="8">
+                    <MudItem xs="12" sm="6">
                         <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Primary">Administrador Catalogo</MudText>
                     </MudItem>
 
@@ -32,78 +35,99 @@
                             New Product
                         </MudButton>
                     </MudItem>
+                    <MudItem xs="12" sm="2">                        
+                            <MudButton Variant="Variant.Filled"
+                                       StartIcon="@Icons.Material.Filled.Download"
+                                       Color="Color.Success"
+                                       OnClick="ExportarToExcel_Onclick">
+                                Exportar Productos
+                            </MudButton>                        
+                    </MudItem>
+
+
                 </MudGrid>
                 <MudItem xs="12">
-                    <MudTable T="Products"
-                              ServerData="LoadServerData"
-                              RowsPerPage="20"
-                              RowsPerPageOptions="new int[] {5, 10, 20, 50}"
-                              Bordered="true"
-                              Striped="true"
-                              Hover="true"
-                              Dense="true"
-                              Breakpoint="Breakpoint.Sm"
-                              Elevation="1"
-                              @bind-SelectedItem="productSelected"
-                              @ref="tableRef">
-                        <ToolBarContent>
-                            <MudSpacer />
-                            <MudTextField @bind-Value="_cadenaBuscar"
-                                          Placeholder="Buscar"
-                                          Adornment="Adornment.Start"
-                                          AdornmentIcon="@Icons.Material.Filled.Search"
-                                          IconSize="Size.Medium"
-                                          Immediate="true"
-                                          OnBlurred="TriggerReload"
-                                          OnKeyUp="TriggerReload"
-                                          Class="mt-0" />
-                        </ToolBarContent>
-                        <HeaderContent>
-                            <MudTh>ItemID</MudTh>
-                            <MudTh>ProductoName</MudTh>
-                            <MudTh>UPC</MudTh>
-                            <MudTh>Price</MudTh>
-                            <MudTh>IsActive</MudTh>
-                            <MudTh>Foto</MudTh>
-                            <MudTh></MudTh>
-                        </HeaderContent>
-                        <RowTemplate Context="productRow">
-                            <MudTd DataLabel="ID">@productRow.ItemID</MudTd>
-                            <MudTd DataLabel="Nombre">@productRow.ProductName</MudTd>
-                            <MudTd DataLabel="Codigo">@productRow.UPC</MudTd>
-                            <MudTd DataLabel="Precio">@productRow.SalePrice.ToString("C", CultureInfo.CurrentCulture)</MudTd>
-                            <MudTd DataLabel="Uni. Medidad">
-                                @if (productRow.IsActive)
-                                {
-                                    <span>Si</span>
-                                }
-                                else
-                                {
-                                    <span>No</span>
-                                }
-                            </MudTd>
-                            <MudTd>
-                                @if (productRow.IdImage > 0)
-                                {
-                                    @if (productRow.ImageData != null && productRow.ImageData.Length > 0)
+                    <MudPaper Class="position-relative">
+                        <MudOverlay Visible="@_downLoadin"
+                                    DarkBackground="true"
+                                    ZIndex="1300">
+                            <MudProgressCircular Indeterminate="true"
+                                                 Style="@($"color:#1565C0;")"                                                 
+                                                 Size="Size.Large" />
+                            <MudText Class="mt-3" Style="@($"color:#1565C0;")">Generando archivo Excel...</MudText>
+                        </MudOverlay>
+                        <MudTable T="Products"
+                                  ServerData="LoadServerData"
+                                  RowsPerPage="20"
+                                  RowsPerPageOptions="new int[] {5, 10, 20, 50}"
+                                  Bordered="true"
+                                  Striped="true"
+                                  Hover="true"
+                                  Dense="true"
+                                  Breakpoint="Breakpoint.Sm"
+                                  Elevation="1"
+                                  @bind-SelectedItem="productSelected"
+                                  @ref="tableRef">
+                            <ToolBarContent>
+                                <MudSpacer />
+                                <MudTextField @bind-Value="_cadenaBuscar"
+                                              Placeholder="Buscar"
+                                              Adornment="Adornment.Start"
+                                              AdornmentIcon="@Icons.Material.Filled.Search"
+                                              IconSize="Size.Medium"
+                                              Immediate="true"
+                                              OnBlurred="TriggerReload"
+                                              OnKeyUp="TriggerReload"
+                                              Class="mt-0" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh>ItemID</MudTh>
+                                <MudTh>ProductoName</MudTh>
+                                <MudTh>UPC</MudTh>
+                                <MudTh>Price</MudTh>
+                                <MudTh>Active</MudTh>
+                                <MudTh>Foto</MudTh>
+                                <MudTh></MudTh>
+                            </HeaderContent>
+                            <RowTemplate Context="productRow">
+                                <MudTd DataLabel="ID">@productRow.ItemID</MudTd>
+                                <MudTd DataLabel="Nombre">@productRow.ProductName</MudTd>
+                                <MudTd DataLabel="Codigo">@productRow.UPC</MudTd>
+                                <MudTd DataLabel="Precio">@productRow.SalePrice.ToString("C", CultureInfo.CurrentCulture)</MudTd>
+                                <MudTd DataLabel="Uni. Medidad">
+                                    @if (productRow.IsActive)
                                     {
-                                        <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
-                                             style="max-width:50px; border-radius:8px;" />
+                                        <span>Si</span>
                                     }
-                                }
-                            </MudTd>
+                                    else
+                                    {
+                                        <span>No</span>
+                                    }
+                                </MudTd>
+                                <MudTd>
+                                    @if (productRow.IdImage > 0)
+                                    {
+                                        @if (productRow.ImageData != null && productRow.ImageData.Length > 0)
+                                        {
+                                            <img src="data:image/png;base64,@Convert.ToBase64String(productRow.ImageData)"
+                                                 style="max-width:50px; border-radius:8px;" />
+                                        }
+                                    }
+                                </MudTd>
 
 
-                            <MudTd>
-                                <MudFab Color="Color.Secondary"
-                                        StartIcon="@Icons.Material.Filled.Edit"
-                                        Size="Size.Small"
-                                        IconSize="Size.Small"
-                                        OnClick="@(() => AbrirTabEdicionProducto(productRow))" />
-                            </MudTd>
-                        </RowTemplate>
-                    </MudTable>
+                                <MudTd>
+                                    <MudFab Color="Color.Secondary"
+                                            StartIcon="@Icons.Material.Filled.Edit"
+                                            Size="Size.Small"
+                                            IconSize="Size.Small"
+                                            OnClick="@(() => AbrirTabEdicionProducto(productRow))" />
+                                </MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudPaper>
                 </MudItem>
+
             </MudContainer>
         }
         @if (_verDetalle)

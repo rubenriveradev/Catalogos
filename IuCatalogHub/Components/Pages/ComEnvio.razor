@@ -24,7 +24,7 @@
 
 
                     <MudItem xs="12" sm="8">
-                        <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Success">Administrador Envios</MudText>
+                        <MudText Typo="Typo.h5" GutterBottom="true" Align="Align.Center" Color="Color.Primary">Administrador Envios</MudText>
                     </MudItem>
 
                     <MudItem xs="12" sm="2">
@@ -77,6 +77,7 @@
                                         StartIcon="@Icons.Material.Filled.ShoppingCart"
                                         OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))" /> *@
                                 <MudButton Variant="Variant.Filled" Size="Size.Small" Color="Color.Tertiary"
+                                           StartIcon="@Icons.Material.Outlined.ListAlt"
                                            OnClick="@(() => AbrirAdicionProductosEnvio(despachoRow.IdDespacho))">Productos</MudButton>
                             </MudTd>
 

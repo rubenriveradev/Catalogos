@@ -140,7 +140,7 @@ namespace IuCatalogHub.Components.Pages
             var opciones = new DialogOptions
             {
                 MaxWidth = MaxWidth.Medium,
-                FullWidth = true,
+                //FullWidth = true,
                 BackdropClick = false
             };
 

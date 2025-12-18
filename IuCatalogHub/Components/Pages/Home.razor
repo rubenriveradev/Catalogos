@@ -6,7 +6,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3" Style="height:100vh;">
+        @* <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3" Style="height:100vh;">
             <MudItem xs="12" sm="6" md="4" lg="2">
                 <div class="card text-white bg-info mb-3">
                     <div class="card-header">Header</div>
@@ -45,9 +45,89 @@
                     </div>
                 </div>
             </MudItem>
+        </MudGrid> *@
+        <MudGrid Justify="Justify.Center"
+                 AlignItems="AlignItems.Center"
+                 Spacing="4"
+                 Class="dashboard-container">
 
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudCard Class="dashboard-card" Elevation="6">
+                    <MudCardContent Class="text-center">
+                        <MudIcon Icon="@Icons.Material.Filled.Inventory"
+                                 Size="Size.Large"
+                                 Color="Color.Primary" />
 
+                        <MudText Typo="Typo.h6" Class="mt-2">
+                            Productos
+                        </MudText>
 
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            Administración Productos
+                        </MudText>
+                    </MudCardContent>
+
+                    <MudCardActions Class="justify-center">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@(() => btnGo_To("/producto"))">
+                            Go
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudCard Class="dashboard-card" Elevation="6">
+                    <MudCardContent Class="text-center">
+                        <MudIcon Icon="@Icons.Material.Filled.LocalShipping"
+                                 Size="Size.Large"
+                                 Color="Color.Success" />
+
+                        <MudText Typo="Typo.h6" Class="mt-2">
+                            Envios
+                        </MudText>
+
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            Gestión de Envios
+                        </MudText>
+                    </MudCardContent>
+
+                    <MudCardActions Class="justify-center">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Success"
+                                   OnClick="@(() => btnGo_To("/Shipment"))">
+                            Go
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudCard Class="dashboard-card" Elevation="6">
+                    <MudCardContent Class="text-center">
+                        <MudIcon Icon="@Icons.Material.Filled.History"
+                                 Size="Size.Large"
+                                 Color="Color.Warning" />
+
+                        <MudText Typo="Typo.h6" Class="mt-2">
+                            Histórico
+                        </MudText>
+
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            Histórico Productos
+                        </MudText>
+                    </MudCardContent>
+
+                    <MudCardActions Class="justify-center">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Warning"
+                                   OnClick="@(() => btnGo_To("/product-history"))">
+                            Go
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
 
         </MudGrid>
 
@@ -58,9 +138,13 @@
     <NotAuthorized>
         @if (verLogin)
         {
-            <Login />
+            <MudContainer MaxWidth="MaxWidth.False"
+                          Class="login-wrapper">
+                <Login />
+            </MudContainer>
         }
     </NotAuthorized>
+
 </AuthorizeView>
 
 

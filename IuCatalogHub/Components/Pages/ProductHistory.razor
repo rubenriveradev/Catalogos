@@ -86,6 +86,7 @@
                                         StartIcon="@Icons.Material.Filled.Bookmark"
                                         Label="Ver Historico"
                                         Size="Size.Small"
+                                        Style="font-size:0.68rem !important;"
                                         OnClick="@(() => VerHistorial_onClick(productRow))" />
 
 
@@ -97,90 +98,92 @@
         }
         @if (_verHistorico)
         {
-            <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-                <MudItem>
-                    <MudButton Variant="Variant.Filled" Size="Size.Small" 
-                               Style="@($"color:{Colors.Gray.Lighten1}; background:{Colors.Blue.Lighten1}")"
-                    OnClick="Volver_onClick">
-                        <MudIcon Icon="@Icons.Material.Rounded.Backspace" Size="Size.Small" Class="me-1" />
-                        Back
-                    </MudButton>
-                </MudItem>
+            @if (lsProductHistorico != null && lsProductHistorico.Count > 0)
+            {
+                <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                    <MudItem>
+                        <MudButton Variant="Variant.Filled" Size="Size.Small"
+                                   Style="@($"color:{Colors.Gray.Lighten1}; background:{Colors.Blue.Lighten1}")"
+                                   OnClick="Volver_onClick">
+                            <MudIcon Icon="@Icons.Material.Rounded.Backspace" Size="Size.Small" Class="me-1" />
+                            Back
+                        </MudButton>
+                    </MudItem>
 
 
-                <MudPaper Class="pa-2 ma-1 mt-1 mb-2" Square="true">
-                    <MudGrid>
+                    <MudPaper Class="pa-2 ma-1 mt-1 mb-2" Square="true">
+                        <MudGrid>
 
-                        <MudItem xs="12">
-                            <MudTextField Disabled @bind-Value="lsProductHistorico[0].ProductName" Label="Item ID" Variant="Variant.Outlined"></MudTextField>
-                        </MudItem>
-                        <MudItem xs="12" sm="4">
-                            <MudTextField Disabled @bind-Value="lsProductHistorico[0].ItemID" Label="Item ID" Variant="Variant.Outlined"></MudTextField>
-                        </MudItem>
-                        <MudItem xs="12" sm="4">
-                            <MudTextField Disabled @bind-Value="lsProductHistorico[0].UPC" Label="UPC" Variant="Variant.Outlined"></MudTextField>
-                        </MudItem>
-                        <MudItem xs="12" sm="4">
-                            <MudTextField Disabled @bind-Value="lsProductHistorico[0].FechaDespacho" Label="FechaDespacho" Variant="Variant.Outlined"></MudTextField>
-                        </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField Disabled @bind-Value="lsProductHistorico[0].ProductName" Label="Item ID" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" sm="3">
+                                <MudTextField Disabled @bind-Value="lsProductHistorico[0].ItemID" Label="Item ID" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" sm="3">
+                                <MudTextField Disabled @bind-Value="lsProductHistorico[0].UPC" Label="UPC" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" sm="3">
+                                <MudTextField Disabled @bind-Value="lsProductHistorico[0].Store" Label="Store" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
+                            <MudItem xs="12" sm="3">
+                                <MudTextField Disabled @bind-Value="lsProductHistorico[0].Mattel" Label="Mattel" Variant="Variant.Outlined"></MudTextField>
+                            </MudItem>
 
-                    </MudGrid>
-                </MudPaper>
-            </MudContainer>
-            <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
-                <table class="table table-bordered  table-sm">
-                    <thead>
-                        <tr>
-                            <th>Nro</th>
-                            <th>Fecha Envio</th>
-                            <th>CostPrice</th>
-                            <th>SalePrice</th>
-                            <th>WFS</th>
-                            <th>StorageFee_WFS</th>
-                            <th>% Commission</th>
-                            <th>Commission</th>
-                            <th>PoundFee Shipment</th>
-                            <th>Profit</th>
-                            <th>ROI</th>
-                            <th>WFS_RefFee</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (lsProductHistorico != null && lsProductHistorico.Count > 0)
-                        {
-                            @foreach (var item in lsProductHistorico)
+                        </MudGrid>
+                    </MudPaper>
+                </MudContainer>
+                <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+                    <table class="table table-bordered  table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nro</th>
+                                <th>Fecha Envio</th>
+                                <th>CostPrice</th>
+                                <th>SalePrice</th>
+                                <th>WFS</th>
+                                <th>StorageFee_WFS</th>
+                                <th>% Commission</th>
+                                <th>Commission</th>
+                                <th>PoundFee Shipment</th>
+                                <th>Profit</th>
+                                <th>ROI</th>
+                                <th>WFS_RefFee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (lsProductHistorico != null && lsProductHistorico.Count > 0)
+                            {
+                                @foreach (var item in lsProductHistorico)
+                                {
+                                    <tr>
+                                        <td>@item.Nro</td>
+                                        <td>@item.FechaDespacho</td>
+                                        <td>@item.CostPrice.ToString("C", new CultureInfo("en-US"))</td>
+                                        <td>@item.SalePrice.ToString("C", new CultureInfo("en-US"))</td>
+                                        <td>@item.WFS</td>
+                                        <td>@item.StorageFee_WFS</td>
+                                        <td>@item.PercentageCommission %</td>
+                                        <td>@item.Commission.ToString("C", new CultureInfo("en-US"))</td>
+                                        <td>@item.PoundFee_Shipment</td>
+                                        <td>@item.Profit</td>
+                                        <td>@item.ROI</td>
+                                        <td>@item.WFS_RefFee</td>
+                                    </tr>
+
+                                }
+                            }
+                            else
                             {
                                 <tr>
-                                    <td>@item.Nro</td>
-                                    <td>@item.FechaDespacho</td>
-                                    <td>@item.CostPrice.ToString("C", new CultureInfo("en-US"))</td>
-                                    <td>@item.SalePrice.ToString("C", new CultureInfo("en-US"))</td>
-                                    <td>@item.WFS</td>
-                                    <td>@item.StorageFee_WFS</td>
-                                    <td>@item.PercentageCommission %</td>
-                                    <td>@item.Commission.ToString("C", new CultureInfo("en-US"))</td>
-                                    <td>@item.PoundFee_Shipment</td>
-                                    <td>@item.Profit</td>
-                                    <td>@item.ROI</td>
-                                    <td>@item.WFS_RefFee</td>
+                                    <td colspan="4" class="text-center">No hay datos para mostrar</td>
                                 </tr>
-
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="4" class="text-center">No hay datos para mostrar</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </MudContainer>
+                        </tbody>
+                    </table>
+                </MudContainer>
+            }
         }
-
-
-
-
     </Authorized>
     <NotAuthorized>
 
