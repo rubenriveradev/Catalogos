@@ -7,14 +7,14 @@ namespace IuCatalogHub.Components.Pages
     public partial class ProductHistory
     {
         public bool _verListado = false;
-        public bool _verHistorico = false;        
+        public bool _verHistorico = false;
         public bool _loading = true;
         private UserModel usuLogueado = new();
         List<Products> lsProductos = new List<Products>();
         private Products productSelected = null;
         private MudTable<Products> tableRef;
 
-        List<EnvioDetailModel>lsProductHistorico = new List<EnvioDetailModel>();
+        List<EnvioDetailModel> lsProductHistorico = new List<EnvioDetailModel>();
 
 
         private string _cadenaBuscar = "";
@@ -33,7 +33,7 @@ namespace IuCatalogHub.Components.Pages
                 }
                 await CargarProductos();
                 _verListado = true;
-                
+
 
 
                 _loading = false;
@@ -95,18 +95,26 @@ namespace IuCatalogHub.Components.Pages
         {
             tableRef?.ReloadServerData();
         }
-        
+
 
         private async Task VerHistorial_onClick(Products item)
         {
-
+            lsProductHistorico = new List<EnvioDetailModel>();  
             var resp = await _serEnvios.ConsultarProductosHistorico(item.IdProduct);
-            if(!resp.IsError)
+            if (!resp.IsError)
             {
                 lsProductHistorico = resp.Info;
-                productSelected = item;
-                _verListado = false;
-                _verHistorico = true;
+                if (lsProductHistorico.Count > 0)
+                {
+                    _verListado = false;
+                    _verHistorico = true;
+                }
+                else
+                {
+                    _snackBar.Add("No existen registros históricos para el producto.", Severity.Info, c => c.SnackbarVariant = Variant.Outlined);
+                    return;
+                }
+
             }
             else
             {

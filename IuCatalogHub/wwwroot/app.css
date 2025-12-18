@@ -91,3 +91,10 @@ h1:focus {
     color: rgb(89 74 226) !important;
     font-size:0.65rem !important;
 }
+
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center; /* vertical */
+    justify-content: center; /* horizontal */
+}
